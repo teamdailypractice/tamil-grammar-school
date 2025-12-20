@@ -41,5 +41,7 @@
 * command:  `python epub_to_markdown.py <input.epub> <output_directory>`
 
 ```cmd
-python epub_to_markdown.py D:\git\tamil-grammar-school\temp\Class_10_Tamil_StateBoard.epub D:\git\tamil-grammar-school\temp\10-html
+python epub_to_markdown.py ../books/Class_10_Tamil_StateBoard.epub ../tamil-grammar-school/temp/10-html
+
+python epub_to_markdown.py ../books/Class_09_Tamil_StateBoard.epub ../temp/09-html
 ```
