@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biology Learning Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .dashboard-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .course-list {
+            list-style: none;
+            padding: 0;
+        }
+        .course-item {
+            border: 1px solid #eee;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .course-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: #4CAF50;
+        }
+        .course-link {
+            display: block;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+        .course-meta {
+            display: block;
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <header style="text-align: center; margin-bottom: 2rem;">
+            <h1 style="color: #4CAF50;">9th Grade Science Dashboard</h1>
+            <p>Select a lesson to begin learning</p>
+        </header>
+
+        <ul class="course-list">
+            <li class="course-item">
+                <a href="chapter-5.html" class="course-link">
+                    Bio-1: THE FUNDAMENTAL UNIT OF LIFE
+                    <span class="course-meta">Chapter 5 • Biology • Interactive Lesson</span>
+                </a>
+            </li>
+            <!-- Future chapters can be added here easily -->
+        </ul>
+    </div>
+</body>
+</html>
