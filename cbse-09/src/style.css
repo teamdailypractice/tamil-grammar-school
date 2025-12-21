@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: sans-serif;
     line-height: 1.6;
@@ -23,18 +27,51 @@ body {
     top: 0;
     left: 0;
     width: 300px;
+    max-width: 85%; /* Don't cover whole screen on mobile */
     height: 100%;
     background: #fff;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    transform: translateX(-100%); /* Move completely off-screen */
-    transition: transform 0.3s ease-in-out;
-    z-index: 2000; /* Ensure it's on top of everything */
-    padding: 1rem;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 2000;
+    padding: 1.5rem;
+    margin: 0;
     overflow-y: auto;
 }
 
 #topics-nav.visible {
     transform: translateX(0);
+}
+
+/* Sidebar Overlay */
+#sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1500; /* Between content and sidebar */
+    transition: opacity 0.3s ease;
+}
+
+/* Main content responsive tweaks */
+@media (max-width: 600px) {
+    header {
+        padding-top: 40px; /* Make room for absolute button */
+    }
+    #topics-btn {
+        top: 0;
+        left: 0;
+        width: 100%;
+        position: relative;
+        margin-bottom: 10px;
+    }
+    #app {
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
 }
 
 /* Generic hidden class */

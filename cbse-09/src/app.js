@@ -6,12 +6,13 @@ const topicsBtn = document.getElementById('topics-btn');
 const topicsNav = document.getElementById('topics-nav');
 const topicsCloseBtn = document.getElementById('topics-close-btn');
 const topicsList = document.getElementById('topics-list');
+const sidebarOverlay = document.getElementById('sidebar-overlay');
 
 let currentTopicIndex = 0;
 let currentStageIndex = 0;
 let topics = [];
 let quizData = null;
-let currentChapter = document.body.dataset.chapter || 'ch5'; // Default to ch5 if not set
+let currentChapter = document.body.dataset.chapter || 'ch5'; 
 
 const APP_VERSION = 'v2.2'; 
 
@@ -58,7 +59,6 @@ function resetProgress() {
 
 async function fetchDataAndInitialize() {
     try {
-        // Dynamic fetch based on chapter ID
         const topicsResponse = await fetch(`topics-${currentChapter}.json`);
         if (!topicsResponse.ok) throw new Error(`Failed to load topics for ${currentChapter}`);
         const topicsData = await topicsResponse.json();
@@ -82,7 +82,7 @@ async function fetchDataAndInitialize() {
 
     } catch (error) {
         console.error('Initialization error:', error);
-        contentEl.innerHTML = `<p style="color:red">Error: ${error.message}. Please try refreshing the page or checking the URL.</p>`;
+        contentEl.innerHTML = `<p style="color:red">Error: ${error.message}. Please try refreshing the page.</p>`;
     }
 }
 
@@ -141,20 +141,20 @@ function renderQuizStage(stage) {
     topicQuiz.questions.forEach((q, index) => {
         const shuffledOptions = [...q.options];
         shuffleArray(shuffledOptions);
-        quizHtml += `
-            <div class="quiz-question" id="question-${index}">
-                <p><b>${index + 1}. ${q.question}</b></p>
-                <div class="quiz-options">
-                    ${shuffledOptions.map(opt => `
+        quizHtml += "
+            <div class=\"quiz-question\" id=\"question-" + index + "\">
+                <p><b>" + (index + 1) + ". " + q.question + "</b></p>
+                <div class=\"quiz-options\">
+                    " + shuffledOptions.map(opt => "
                         <label>
-                            <input type="radio" name="question-${index}" value="${opt}">
-                            ${opt}
+                            <input type=\"radio\" name=\"question-" + index + "\" value=\"" + opt + "\">
+                            " + opt + "
                         </label>
-                    `).join('')}
+                    ").join('') + "
                 </div>
-                <p class="quiz-feedback" id="feedback-${index}"></p>
+                <p class=\"quiz-feedback\" id=\"feedback-" + index + "\"></p>
             </div>
-        `;
+        ";
     });
     quizHtml += '<button id="submit-quiz-btn">Check Answers</button>';
     return quizHtml;
@@ -168,9 +168,9 @@ function handleQuizSubmit() {
     let score = 0;
 
     topicQuiz.questions.forEach((q, index) => {
-        const selectedOption = document.querySelector(`input[name="question-${index}"]:checked`);
-        const feedbackEl = document.getElementById(`feedback-${index}`);
-        const questionEl = document.getElementById(`question-${index}`);
+        const selectedOption = document.querySelector(`input[name="question-" + index + ""]:checked`);
+        const feedbackEl = document.getElementById(`feedback-" + index + "`);
+        const questionEl = document.getElementById(`question-" + index + "`);
 
         if (selectedOption) {
             if (selectedOption.value === q.answer) {
@@ -216,6 +216,11 @@ function updateButtonStates() {
     nextBtn.disabled = (isLastTopic && isLastStage);
 }
 
+function closeSidebar() {
+    topicsNav.classList.remove('visible');
+    sidebarOverlay.classList.add('hidden');
+}
+
 function nextStage() {
     if (currentStageIndex < topics[currentTopicIndex].stages.length - 1) {
         currentStageIndex++;
@@ -247,7 +252,7 @@ function handleTopicLinkClick(event) {
             currentStageIndex = 0;
             renderStage();
             saveProgress();
-            topicsNav.classList.remove('visible');
+            closeSidebar();
         }
     }
 }
@@ -264,14 +269,15 @@ function shuffleArray(array) {
 nextBtn.addEventListener('click', nextStage);
 prevBtn.addEventListener('click', prevStage);
 
+// Sidebar Toggle Logic
 topicsBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     topicsNav.classList.add('visible');
+    sidebarOverlay.classList.remove('hidden');
 });
 
-topicsCloseBtn.addEventListener('click', () => {
-    topicsNav.classList.remove('visible');
-});
+topicsCloseBtn.addEventListener('click', closeSidebar);
+sidebarOverlay.addEventListener('click', closeSidebar);
 
 topicsList.addEventListener('click', handleTopicLinkClick);
 
