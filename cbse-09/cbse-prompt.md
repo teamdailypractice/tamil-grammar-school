@@ -171,3 +171,6 @@ The book pdf is available in:  ./ncert-09-science-book/iesc105-biology-01.pdf
 * flashcards should be added to pdf book and EPUB book  
 
 * Search feature or progress feature needed?
+
+* My progress - every day, categorized by topics and quiz
+showing count of topics and count of quiz questions

@@ -23,13 +23,23 @@ function getStorageKey() {
     return `biology-${currentChapter}-progress`;
 }
 
-function saveProgress() {
+function saveProgress(quizPassed = false) {
+    const storageKey = getStorageKey();
+    let meta = JSON.parse(localStorage.getItem(storageKey + '-meta') || '{"quizzesPassed": 0}');
+    
+    if (quizPassed) meta.quizzesPassed++;
+    meta.lastActivity = new Date().toISOString().split('T')[0];
+    meta.totalTopics = topics.length;
+    meta.totalStages = topics.reduce((sum, t) => sum + t.stages.length, 0);
+
     const progress = {
         version: APP_VERSION,
         topic: currentTopicIndex,
         stage: currentStageIndex
     };
-    localStorage.setItem(getStorageKey(), JSON.stringify(progress));
+    
+    localStorage.setItem(storageKey, JSON.stringify(progress));
+    localStorage.setItem(storageKey + '-meta', JSON.stringify(meta));
 }
 
 function purgeOldStorage() {
@@ -254,8 +264,10 @@ function handleQuizSubmit() {
     const percentage = (score / topicQuiz.questions.length) * 100;
     if (percentage >= 80) {
         showCelebration('Excellent!', `You scored ${score}/${topicQuiz.questions.length} (${percentage}%). Great job!`, '🌟');
+        saveProgress(true); // Passed
     } else {
         alert(`You scored ${score} out of ${topicQuiz.questions.length}!`);
+        saveProgress(false); // Finished but not 80%
     }
 }
 
