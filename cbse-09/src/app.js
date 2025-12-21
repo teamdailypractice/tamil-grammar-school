@@ -186,6 +186,45 @@ function renderQuizStage(stage) {
 
 // --- UI Updates & Event Handlers ---
 
+function showToast(message) {
+    let toast = document.getElementById('toast-notification');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'toast-notification';
+        document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+function showCelebration(title, message, emoji = '🎉') {
+    let modal = document.getElementById('celebration-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'celebration-modal';
+        document.body.appendChild(modal);
+    }
+    modal.innerHTML = `
+        <h2>${title}</h2>
+        <span class="emoji">${emoji}</span>
+        <p>${message}</p>
+        <button onclick="this.parentElement.classList.remove('show')">Awesome!</button>
+    `;
+    
+    // Add overlay if missing
+    let overlay = document.getElementById('sidebar-overlay');
+    if (overlay) overlay.classList.remove('hidden');
+    
+    modal.classList.add('show');
+    
+    // Auto hide after 5 seconds if not closed
+    setTimeout(() => {
+        modal.classList.remove('show');
+        if (overlay) overlay.classList.add('hidden');
+    }, 5000);
+}
+
 function handleQuizSubmit() {
     const topic = topics[currentTopicIndex];
     const topicQuiz = quizData.topics.find(t => t.title === topic.title);
@@ -207,15 +246,17 @@ function handleQuizSubmit() {
                 feedbackEl.style.color = 'red';
                 questionEl.style.borderLeft = '3px solid red';
             }
-        } else {
-            feedbackEl.textContent = 'You did not answer this question.';
-            feedbackEl.style.color = 'orange';
-            questionEl.style.borderLeft = '3px solid orange';
         }
     });
 
     document.getElementById('submit-quiz-btn').style.display = 'none';
-    alert(`You scored ${score} out of ${topicQuiz.questions.length}!`);
+    
+    const percentage = (score / topicQuiz.questions.length) * 100;
+    if (percentage >= 80) {
+        showCelebration('Excellent!', `You scored ${score}/${topicQuiz.questions.length} (${percentage}%). Great job!`, '🌟');
+    } else {
+        alert(`You scored ${score} out of ${topicQuiz.questions.length}!`);
+    }
 }
 
 function updateProgress() {
@@ -250,9 +291,11 @@ function closeSidebar() {
 function nextStage() {
     if (currentStageIndex < topics[currentTopicIndex].stages.length - 1) {
         currentStageIndex++;
+        showToast('Stage Complete! Keep going! 🚀');
     } else if (currentTopicIndex < topics.length - 1) {
         currentTopicIndex++;
         currentStageIndex = 0;
+        showCelebration('Topic Complete!', `You've mastered "${topics[currentTopicIndex-1].title}"!`, '🏆');
     }
     renderStage();
     saveProgress();

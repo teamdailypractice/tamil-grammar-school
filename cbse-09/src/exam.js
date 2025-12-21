@@ -152,6 +152,26 @@ function updateTimerDisplay() {
     }
 }
 
+function showCelebration(title, message, emoji = '🎉') {
+    let modal = document.getElementById('celebration-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'celebration-modal';
+        document.body.appendChild(modal);
+    }
+    modal.innerHTML = `
+        <h2>${title}</h2>
+        <span class="emoji">${emoji}</span>
+        <p>${message}</p>
+        <button onclick="document.getElementById('celebration-modal').classList.remove('show'); document.getElementById('sidebar-overlay').classList.add('hidden');">Awesome!</button>
+    `;
+    
+    const overlay = document.getElementById('sidebar-overlay');
+    if (overlay) overlay.classList.remove('hidden');
+    
+    modal.classList.add('show');
+}
+
 function submitExam() {
     clearInterval(timerInterval);
     let score = 0;
@@ -174,7 +194,12 @@ function submitExam() {
         }
     });
 
-    alert(`Exam finished!\n\nYou scored ${score} out of ${examQuestions.length}.`);
+    const percentage = (score / examQuestions.length) * 100;
+    if (percentage >= 80) {
+        showCelebration('Exam Passed!', `Incredible! You scored ${score}/${examQuestions.length} (${Math.round(percentage)}%). You are a Biology expert!`, '🎓');
+    } else {
+        alert(`Exam finished!\n\nYou scored ${score} out of ${examQuestions.length} (${Math.round(percentage)}%).`);
+    }
     
     // Disable inputs after submission
     const inputs = document.querySelectorAll('#exam-content input');

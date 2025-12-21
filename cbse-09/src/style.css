@@ -202,6 +202,62 @@ button:hover:not(:disabled) {
     font-weight: bold;
 }
 
+/* --- Celebration Modal --- */
+#celebration-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    background: white;
+    padding: 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.3);
+    z-index: 3000;
+    text-align: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#celebration-modal.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+#celebration-modal h2 {
+    color: #4CAF50;
+    font-size: 2rem;
+    margin-top: 0;
+}
+
+#celebration-modal .emoji {
+    font-size: 4rem;
+    display: block;
+    margin: 1rem 0;
+}
+
+/* --- Toast Notification --- */
+#toast-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    z-index: 2500;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+#toast-notification.show {
+    opacity: 1;
+}
+
 /* --- Exam Mode Styles --- */
 .hidden {
     display: none !important;
