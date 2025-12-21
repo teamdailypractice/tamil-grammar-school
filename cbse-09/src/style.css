@@ -98,13 +98,30 @@ header {
 
 nav {
     margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 nav a {
-    margin: 0 1rem;
+    margin: 0 0.5rem;
     text-decoration: none;
-    color: #333;
+    color: #666;
     font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+nav a:hover {
+    color: #4CAF50;
+    background: #f1f8e9;
+}
+
+nav a.active {
+    color: white;
+    background: #4CAF50;
 }
 
 #progress-container {

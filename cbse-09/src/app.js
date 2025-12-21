@@ -50,28 +50,32 @@ function purgeOldStorage() {
 
 function loadAndValidateProgress() {
     try {
-        purgeOldStorage();
         const savedProgress = localStorage.getItem(getStorageKey());
         if (savedProgress) {
             const progress = JSON.parse(savedProgress);
             
-            // If version matches and indices are valid, load them
+            // Validate: Only load if it matches current app structure
             if (progress.version === APP_VERSION && 
                 topics[progress.topic] && 
                 topics[progress.topic].stages[progress.stage]) {
                 currentTopicIndex = progress.topic;
                 currentStageIndex = progress.stage;
+                console.log("Progress loaded successfully.");
                 return;
+            } else {
+                console.warn("Saved progress is for an older version. Starting fresh for this session.");
             }
         }
     } catch (e) {
-        console.error('Error loading progress:', e);
+        console.error('Error reading progress:', e);
     }
-    // Default to start if invalid or missing
-    resetProgress();
+    // Default session state to start, but DON'T overwrite localStorage yet
+    currentTopicIndex = 0;
+    currentStageIndex = 0;
 }
 
 function resetProgress() {
+    // This is now only called manually or when the user explicitly resets
     currentTopicIndex = 0;
     currentStageIndex = 0;
     saveProgress();

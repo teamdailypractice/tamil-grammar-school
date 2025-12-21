@@ -11,9 +11,9 @@ let examQuestions = [];
 let timerInterval = null;
 let timeLeft = 20 * 60; // 20 minutes in seconds
 
-// Get chapter from URL or default to ch5
+// Get chapter from URL or default to last visited
 const urlParams = new URLSearchParams(window.location.search);
-const currentChapter = urlParams.get('chapter') || 'ch5';
+const currentChapter = urlParams.get('chapter') || localStorage.getItem('biology-last-chapter') || 'ch5';
 
 // --- Initialization ---
 async function init() {
