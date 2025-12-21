@@ -75,6 +75,7 @@ masterArticleHtml += `
 masterArticleHtml += `
     <div class="toc">
         <h1>Table of Contents</h1>
+        <div class="toc-item"><a href="#definitions">Definitions & Formulae</a></div>
         ${chapters.map(ch => `
             <div class="toc-item">
                 <a href="#${ch.id}">${ch.title}</a>
@@ -82,6 +83,20 @@ masterArticleHtml += `
         `).join('')}
     </div>
 `;
+
+// 1.5 Add Definitions/Flashcards Section
+const flashcardsData = JSON.parse(fs.readFileSync('src/flashcards.json', 'utf8'));
+masterArticleHtml += `<h1 id="definitions">Definitions & Formulae</h1>`;
+for (const subject in flashcardsData.subjects) {
+    masterArticleHtml += `<h2>${subject}</h2>`;
+    flashcardsData.subjects[subject].forEach(card => {
+        masterArticleHtml += `
+            <div style="margin-bottom: 15px; border-bottom: 1px solid #f0f0f0; padding-bottom: 5px;">
+                <strong style="color: #2e7d32;">${card.term}:</strong> ${card.definition}
+            </div>
+        `;
+    });
+}
 
 // Content
 chapters.forEach(chapter => {

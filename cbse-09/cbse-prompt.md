@@ -163,4 +163,11 @@ The book pdf is available in:  ./ncert-09-science-book/iesc105-biology-01.pdf
 
 ## Later added
 
-the user should be able to see the list of  topics and should be able to navigate to the specific topic
+* the user should be able to see the list of  topics and should be able to navigate to the specific topic
+
+* Can you create flash cards for definitions, formulae for each of the subject: physics, chemistry, biology for all lessons
+  and put it under flashcard?
+
+* flashcards should be added to pdf book and EPUB book  
+
+* Search feature or progress feature needed?

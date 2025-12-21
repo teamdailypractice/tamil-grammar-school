@@ -27,7 +27,19 @@ language: en-US
 
 This e-book contains the complete interactive lessons and question banks for Class 9 Science.
 
+# Definitions & Formulae
+
 `;
+
+const flashcardsData = JSON.parse(fs.readFileSync('src/flashcards.json', 'utf8'));
+for (const subject in flashcardsData.subjects) {
+    markdownContent += `## ${subject}\n\n`;
+    flashcardsData.subjects[subject].forEach(card => {
+        markdownContent += `**${card.term}:** ${card.definition}\n\n`;
+    });
+}
+
+markdownContent += `\n`;
 
 chapters.forEach(chapter => {
     // 1. Add Lesson Content
