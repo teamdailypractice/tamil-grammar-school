@@ -149,6 +149,17 @@ The final output must function as a **self-paced digital textbook**, with progre
 
 The book pdf is available in:  ./ncert-09-science-book/iesc105-biology-01.pdf
 
+ ./ncert-09-science-book/iesc101-chemistry-01.pdf
+ ./ncert-09-science-book/iesc103-chemistry-03.pdf
+ ./ncert-09-science-book/iesc104-chemistry-04.pdf
+
+ ./ncert-09-science-book/iesc107-physics-01.pdf
+ ./ncert-09-science-book/iesc108-physics-02.pdf
+ ./ncert-09-science-book/iesc109-physics-03.pdf
+
+ ./ncert-09-science-book/iesc110-physics-04.pdf
+ ./ncert-09-science-book/iesc111-physics-05.pdf
+
 
 ## Later added
 

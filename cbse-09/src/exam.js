@@ -11,15 +11,23 @@ let examQuestions = [];
 let timerInterval = null;
 let timeLeft = 20 * 60; // 20 minutes in seconds
 
+// Get chapter from URL or default to ch5
+const urlParams = new URLSearchParams(window.location.search);
+const currentChapter = urlParams.get('chapter') || 'ch5';
+
 // --- Initialization ---
 async function init() {
     try {
-        const response = await fetch('quiz.json');
+        const response = await fetch(`quiz-${currentChapter}.json`);
+        if (!response.ok) throw new Error('Failed to load quiz data');
         const quizData = await response.json();
         allQuestions = quizData.topics.reduce((acc, topic) => acc.concat(topic.questions), []);
+        
+        // Update header title if possible
+        document.querySelector('header h1').textContent = `Biology Exam (${currentChapter.toUpperCase()})`;
     } catch (error) {
         console.error('Error fetching quiz data:', error);
-        alert('Failed to load quiz data.');
+        alert('Failed to load quiz data for this chapter.');
     }
 }
 
@@ -172,9 +180,6 @@ function submitExam() {
     const inputs = document.querySelectorAll('#exam-content input');
     inputs.forEach(input => input.disabled = true);
     submitExamBtn.style.display = 'none';
-    
-    // Optional: Redirect back to chapter after a delay or button click
-    // window.location.href = 'chapter-5.html'; 
 }
 
 function shuffleArray(array) {

@@ -11,10 +11,15 @@ let currentTopicIndex = 0;
 let currentStageIndex = 0;
 let topics = [];
 let quizData = null;
+let currentChapter = document.body.dataset.chapter || 'ch5'; // Default to ch5 if not set
 
-const APP_VERSION = 'v2.1'; 
+const APP_VERSION = 'v2.2'; 
 
 // --- Data & State Management ---
+
+function getStorageKey() {
+    return `biology-${currentChapter}-progress`;
+}
 
 function saveProgress() {
     const progress = {
@@ -22,12 +27,12 @@ function saveProgress() {
         topic: currentTopicIndex,
         stage: currentStageIndex
     };
-    localStorage.setItem('biology-progress', JSON.stringify(progress));
+    localStorage.setItem(getStorageKey(), JSON.stringify(progress));
 }
 
 function loadAndValidateProgress() {
     try {
-        const savedProgress = localStorage.getItem('biology-progress');
+        const savedProgress = localStorage.getItem(getStorageKey());
         if (savedProgress) {
             const progress = JSON.parse(savedProgress);
             
@@ -53,13 +58,14 @@ function resetProgress() {
 
 async function fetchDataAndInitialize() {
     try {
-        const topicsResponse = await fetch('topics.json');
-        if (!topicsResponse.ok) throw new Error('Failed to load topics');
+        // Dynamic fetch based on chapter ID
+        const topicsResponse = await fetch(`topics-${currentChapter}.json`);
+        if (!topicsResponse.ok) throw new Error(`Failed to load topics for ${currentChapter}`);
         const topicsData = await topicsResponse.json();
         topics = topicsData.topics;
 
-        const quizResponse = await fetch('quiz.json');
-        if (!quizResponse.ok) throw new Error('Failed to load quiz');
+        const quizResponse = await fetch(`quiz-${currentChapter}.json`);
+        if (!quizResponse.ok) throw new Error(`Failed to load quiz for ${currentChapter}`);
         quizData = await quizResponse.json();
 
         renderTopicsNav();
@@ -76,7 +82,7 @@ async function fetchDataAndInitialize() {
 
     } catch (error) {
         console.error('Initialization error:', error);
-        contentEl.innerHTML = `<p style="color:red">Error: ${error.message}. Please try refreshing the page.</p>`;
+        contentEl.innerHTML = `<p style="color:red">Error: ${error.message}. Please try refreshing the page or checking the URL.</p>`;
     }
 }
 
