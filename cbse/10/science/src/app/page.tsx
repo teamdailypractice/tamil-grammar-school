@@ -38,11 +38,8 @@ export default function Dashboard() {
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div>
-                        <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Chapter {lesson.chapterNumber}
-                        </span>
                         <h3 className="text-base font-medium text-gray-900 mt-1">
-                          {lesson.title}
+                          {lesson.subject} Lesson {lesson.chapterNumber} - {lesson.title}
                         </h3>
                       </div>
                       {isCompleted ? (

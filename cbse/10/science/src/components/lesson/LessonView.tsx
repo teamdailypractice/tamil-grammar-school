@@ -9,21 +9,23 @@ import { PDFDownload } from "./PDFDownload";
 import { useProgress } from "@/context/ProgressContext";
 import { BookOpen, BrainCircuit, PenTool, CheckCircle, Download } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { SmartText } from "@/components/ui/LatexRenderer";
 
 export function LessonView({ lesson }: { lesson: Lesson }) {
-  const [activeTab, setActiveTab] = useState<'content' | 'quiz' | 'flashcards'>('content');
+  const [activeTab, setActiveTab] = useState<'content' | 'quiz' | 'flashcards' | 'summary' | 'formulae' | 'exercises'>('content');
   const { markLessonComplete, progress } = useProgress();
 
   useEffect(() => {
-    // Mark as complete when visited, or maybe when scrolled to bottom? 
-    // For now, mark when opening content.
     markLessonComplete(lesson.id);
   }, [lesson.id, markLessonComplete]);
 
   const tabs = [
     { id: 'content', label: 'Lesson', icon: BookOpen },
+    { id: 'summary', label: 'Summary', icon: CheckCircle },
+    { id: 'formulae', label: 'Revision', icon: PenTool },
     { id: 'flashcards', label: 'Flashcards', icon: BrainCircuit },
     { id: 'quiz', label: 'Quiz', icon: PenTool },
+    { id: 'exercises', label: 'Exercises', icon: BookOpen },
   ] as const;
 
   return (
@@ -89,6 +91,40 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
 
         <div className="p-6">
           {activeTab === 'content' && <LessonContent content={lesson.content} />}
+          {activeTab === 'summary' && (
+            <div className="space-y-6">
+              <h2 className="text-2xl font-bold">What you have learnt</h2>
+              <ul className="list-disc pl-6 space-y-4">
+                {lesson.summary.map((item, i) => (
+                  <li key={i} className="text-gray-700 leading-relaxed"><SmartText text={item} /></li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {activeTab === 'formulae' && (
+            <div className="space-y-6">
+              <h2 className="text-2xl font-bold">Equations & Formulae</h2>
+              <div className="grid gap-4">
+                {lesson.formulae.map((item, i) => (
+                  <div key={i} className="p-4 bg-gray-50 rounded-lg border border-gray-100">
+                    <SmartText text={item} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          {activeTab === 'exercises' && (
+            <div className="space-y-6">
+              <h2 className="text-2xl font-bold">Exercises</h2>
+              <div className="space-y-8">
+                {lesson.exercises.map((item, i) => (
+                  <div key={i} className="text-gray-700 leading-relaxed whitespace-pre-wrap">
+                    <SmartText text={item} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
           {activeTab === 'quiz' && <QuizComponent lessonId={lesson.id} questions={lesson.quiz} />}
           {activeTab === 'flashcards' && <FlashcardDeck cards={lesson.flashcards} />}
         </div>

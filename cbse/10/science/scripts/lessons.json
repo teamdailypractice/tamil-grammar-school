@@ -1,39 +1,4 @@
-
-export type ContentBlock = 
-  | { type: 'text'; content: string }
-  | { type: 'image'; src: string; alt: string; caption?: string }
-  | { type: 'heading'; level: 1 | 2 | 3; content: string }
-  | { type: 'list'; items: string[] }
-  | { type: 'activity'; title: string; content: string; warning?: string };
-
-export type QuizQuestion = {
-  id: string;
-  question: string;
-  options: string[];
-  correctAnswer: number;
-  explanation: string;
-};
-
-export type Flashcard = {
-  id: string;
-  front: string;
-  back: string;
-};
-
-export type Lesson = {
-  id: string;
-  subject: 'Chemistry' | 'Physics' | 'Biology';
-  title: string;
-  chapterNumber: number;
-  content: ContentBlock[];
-  quiz: QuizQuestion[];
-  flashcards: Flashcard[];
-  summary: string[];
-  exercises: string[];
-  formulae: string[];
-};
-
-export const lessons: Lesson[] = [
+[
   {
     "id": "chem-01",
     "subject": "Chemistry",
@@ -47,7 +12,7 @@ export const lessons: Lesson[] = [
       },
       {
         "type": "text",
-        "content": "Consider the following situations of daily life and think what happens when \u2013\n\n\u2022 milk is left at room temperature during summers.\n\u2022 an iron tawa/pan/nail is left exposed to humid atmosphere.\n\u2022 grapes get fermented.\n\u2022 food is cooked.\n\u2022 food gets digested in our body.\n\u2022 we respire.\n\nIn all the above situations, the nature and the identity of the initial substance have somewhat changed. We have already learnt about physical and chemical changes of matter in our previous classes. Whenever a chemical change occurs, we can say that a chemical reaction has taken place."
+        "content": "Consider the following situations of daily life and think what happens when –\n\n• milk is left at room temperature during summers.\n• an iron tawa/pan/nail is left exposed to humid atmosphere.\n• grapes get fermented.\n• food is cooked.\n• food gets digested in our body.\n• we respire.\n\nIn all the above situations, the nature and the identity of the initial substance have somewhat changed. We have already learnt about physical and chemical changes of matter in our previous classes. Whenever a chemical change occurs, we can say that a chemical reaction has taken place."
       },
       {
         "type": "heading",
@@ -58,7 +23,7 @@ export const lessons: Lesson[] = [
         "type": "activity",
         "title": "Activity 1.1: Burning of Magnesium Ribbon",
         "content": "Clean a magnesium ribbon about 3-4 cm long by rubbing it with sandpaper. Hold it with a pair of tongs. Burn it using a spirit lamp or burner and collect the ash so formed in a watch-glass.",
-        "warning": "CAUTION: This Activity needs the teacher\u2019s assistance. It would be better if students wear suitable eyeglasses."
+        "warning": "CAUTION: This Activity needs the teacher’s assistance. It would be better if students wear suitable eyeglasses."
       },
       {
         "type": "text",
@@ -71,7 +36,7 @@ export const lessons: Lesson[] = [
       },
       {
         "type": "text",
-        "content": "The simplest way to describe a chemical reaction is in the form of a word-equation. The word-equation for the above reaction would be \u2013\n\nMagnesium + Oxygen \u2192 Magnesium oxide\n(Reactants) (Product)\n\nChemical equations can be made more concise and useful if we use chemical formulae instead of words. A chemical equation represents a chemical reaction.\n\n$$\\ce{Mg + O2 -> MgO}$$ "
+        "content": "The simplest way to describe a chemical reaction is in the form of a word-equation. The word-equation for the above reaction would be –\n\nMagnesium + Oxygen → Magnesium oxide\n(Reactants) (Product)\n\nChemical equations can be made more concise and useful if we use chemical formulae instead of words. A chemical equation represents a chemical reaction.\n\n$$\\ce{Mg + O2 -> MgO}$$ "
       },
       {
         "type": "heading",
@@ -375,8 +340,8 @@ export const lessons: Lesson[] = [
       "Reactions also involve the gain or loss of oxygen or hydrogen by substances. Oxidation is the gain of oxygen or loss of hydrogen. Reduction is the loss of oxygen or gain of hydrogen."
     ],
     "exercises": [
-      "1. Which of the statements about the reaction below are incorrect?\n2PbO(s) + C(s) \u2192 2Pb(s) + CO2(g)\n(a) Lead is getting reduced.\n(b) Carbon dioxide is getting oxidised.\n(c) Carbon is getting oxidised.\n(d) Lead oxide is getting reduced.",
-      "2. Fe2O3 + 2Al \u2192 Al2O3 + 2Fe\nThe above reaction is an example of a\n(a) combination reaction.\n(b) double displacement reaction.\n(c) decomposition reaction.\n(d) displacement reaction.",
+      "1. Which of the statements about the reaction below are incorrect?\n2PbO(s) + C(s) → 2Pb(s) + CO2(g)\n(a) Lead is getting reduced.\n(b) Carbon dioxide is getting oxidised.\n(c) Carbon is getting oxidised.\n(d) Lead oxide is getting reduced.",
+      "2. Fe2O3 + 2Al → Al2O3 + 2Fe\nThe above reaction is an example of a\n(a) combination reaction.\n(b) double displacement reaction.\n(c) decomposition reaction.\n(d) displacement reaction.",
       "3. What happens when dilute hydrochloric acid is added to iron fillings? Tick the correct answer.\n(a) Hydrogen gas and iron chloride are produced.\n(b) Chlorine gas and iron hydroxide are produced.\n(c) No reaction takes place.\n(d) Iron salt and water are produced.",
       "4. What is a balanced chemical equation? Why should chemical equations be balanced?",
       "5. Translate the following statements into chemical equations and then balance them.\n(a) Hydrogen gas combines with nitrogen to form ammonia.\n(b) Hydrogen sulphide gas burns in air to give water and sulpur dioxide.\n(c) Barium chloride reacts with aluminium sulphate to give aluminium chloride and a precipitate of barium sulphate.\n(d) Potassium metal reacts with water to give potassium hydroxide and hydrogen gas."
@@ -435,7 +400,7 @@ export const lessons: Lesson[] = [
       },
       {
         "type": "text",
-        "content": "When an acid reacts with a metal, hydrogen gas is evolved and a salt is formed.\n\nAcid + Metal \u2192 Salt + Hydrogen gas\n\n$$\\ce{Zn + H2SO4 -> ZnSO4 + H2}$$ "
+        "content": "When an acid reacts with a metal, hydrogen gas is evolved and a salt is formed.\n\nAcid + Metal → Salt + Hydrogen gas\n\n$$\\ce{Zn + H2SO4 -> ZnSO4 + H2}$$ "
       },
       {
         "type": "text",
@@ -448,7 +413,7 @@ export const lessons: Lesson[] = [
       },
       {
         "type": "text",
-        "content": "All metal carbonates and hydrogencarbonates react with acids to give a corresponding salt, carbon dioxide and water.\n\nMetal carbonate/Metal hydrogencarbonate + Acid \u2192 Salt + Carbon dioxide + Water\n\n$$\\ce{Na2CO3(s) + 2HCl(aq) -> 2NaCl(aq) + H2O(l) + CO2(g)}$$\n$$\\ce{NaHCO3(s) + HCl(aq) -> NaCl(aq) + H2O(l) + CO2(g)}$$"
+        "content": "All metal carbonates and hydrogencarbonates react with acids to give a corresponding salt, carbon dioxide and water.\n\nMetal carbonate/Metal hydrogencarbonate + Acid → Salt + Carbon dioxide + Water\n\n$$\\ce{Na2CO3(s) + 2HCl(aq) -> 2NaCl(aq) + H2O(l) + CO2(g)}$$\n$$\\ce{NaHCO3(s) + HCl(aq) -> NaCl(aq) + H2O(l) + CO2(g)}$$"
       },
       {
         "type": "heading",
@@ -457,7 +422,7 @@ export const lessons: Lesson[] = [
       },
       {
         "type": "text",
-        "content": "The reaction between an acid and a base to give a salt and water is known as a neutralisation reaction.\n\nBase + Acid \u2192 Salt + Water\n\n$$\\ce{NaOH(aq) + HCl(aq) -> NaCl(aq) + H2O(l)}$$"
+        "content": "The reaction between an acid and a base to give a salt and water is known as a neutralisation reaction.\n\nBase + Acid → Salt + Water\n\n$$\\ce{NaOH(aq) + HCl(aq) -> NaCl(aq) + H2O(l)}$$"
       },
       {
         "type": "heading",
@@ -640,5 +605,189 @@ export const lessons: Lesson[] = [
       "$$\\ce{Na2CO3.10H2O}$$ (Washing Soda)",
       "$$\\ce{CaSO4 . 1/2 H2O}$$ (Plaster of Paris)"
     ]
+  },
+  {
+    "id": "chem-03",
+    "subject": "Chemistry",
+    "title": "Metals and Non-metals",
+    "chapterNumber": 3,
+    "content": [
+      {
+        "type": "heading",
+        "level": 1,
+        "content": "Metals and Non-metals"
+      },
+      {
+        "type": "text",
+        "content": "Elements can be classified as metals or non-metals on the basis of their properties. Metals and non-metals are used in our daily life in various ways."
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "content": "3.1 Physical Properties"
+      },
+      {
+        "type": "heading",
+        "level": 3,
+        "content": "3.1.1 Metals"
+      },
+      {
+        "type": "list",
+        "items": [
+          "Metallic Lustre: Metals have a shining surface.",
+          "Hardness: Generally hard (varies per metal).",
+          "Malleability: Can be beaten into thin sheets (Gold and Silver are most malleable).",
+          "Ductility: Can be drawn into thin wires (Gold is most ductile).",
+          "Conduction: Good conductors of heat and electricity.",
+          "Sonorous: Produce a sound on striking a hard surface."
+        ]
+      },
+      {
+        "type": "heading",
+        "level": 3,
+        "content": "3.1.2 Non-metals"
+      },
+      {
+        "type": "text",
+        "content": "Non-metals are either solids or gases except bromine which is a liquid. They are poor conductors, non-malleable, and non-ductile."
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "content": "3.2 Chemical Properties of Metals"
+      },
+      {
+        "type": "text",
+        "content": "Almost all metals combine with oxygen to form metal oxides."
+      },
+      {
+        "type": "text",
+        "content": "$$\\ce{2Cu + O2 -> 2CuO}$$ (Copper(II) oxide)\n$$\\ce{4Al + 3O2 -> 2Al2O3}$$ (Aluminium oxide)"
+      },
+      {
+        "type": "text",
+        "content": "Amphoteric oxides: Metal oxides which react with both acids as well as bases to produce salt and water are called amphoteric oxides (e.g., Al2O3, ZnO)."
+      },
+      {
+        "type": "heading",
+        "level": 3,
+        "content": "Reactivity Series"
+      },
+      {
+        "type": "text",
+        "content": "The reactivity series is a list of metals arranged in the order of their decreasing activities. Metals like Potassium and Sodium are highly reactive."
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "content": "3.3 How do Metals and Non-metals React?"
+      },
+      {
+        "type": "text",
+        "content": "Metals lose electrons and become positive ions (cations), while non-metals gain electrons and become negative ions (anions). They form ionic compounds."
+      },
+      {
+        "type": "text",
+        "content": "Properties of Ionic Compounds: High melting/boiling points, soluble in water, and conduct electricity in molten or solution state."
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "content": "3.4 Occurrence of Metals"
+      },
+      {
+        "type": "text",
+        "content": "Extraction of metals from their ores is called metallurgy. Metals are extracted based on their position in the reactivity series."
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "content": "3.5 Corrosion"
+      },
+      {
+        "type": "text",
+        "content": "Corrosion can be prevented by painting, oiling, greasing, galvanising, chrome plating, anodising or making alloys."
+      }
+    ],
+    "quiz": [
+      {
+        "id": "ch3-q1",
+        "question": "Which metal is a liquid at room temperature?",
+        "options": [
+          "Sodium",
+          "Mercury",
+          "Iron",
+          "Gold"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Mercury is the only metal that is liquid at room temperature."
+      },
+      {
+        "id": "ch3-q2",
+        "question": "Which property allows metals to be drawn into wires?",
+        "options": [
+          "Malleability",
+          "Ductility",
+          "Sonorous",
+          "Lustre"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Ductility is the ability to be drawn into thin wires."
+      },
+      {
+        "id": "ch3-q3",
+        "question": "Amphoteric oxides react with:",
+        "options": [
+          "Acids only",
+          "Bases only",
+          "Both acids and bases",
+          "Neither"
+        ],
+        "correctAnswer": 2,
+        "explanation": "Amphoteric oxides react with both acids and bases."
+      }
+    ],
+    "flashcards": [
+      {
+        "id": "ch3-f1",
+        "front": "Malleability",
+        "back": "Property of metals to be beaten into thin sheets."
+      },
+      {
+        "id": "ch3-f2",
+        "front": "Amphoteric Oxide",
+        "back": "Oxides that react with both acids and bases."
+      },
+      {
+        "id": "ch3-f3",
+        "front": "Galvanisation",
+        "back": "Method of protecting steel/iron from rusting by coating with zinc."
+      },
+      {
+        "id": "ch3-f4",
+        "front": "Alloy",
+        "back": "Homogeneous mixture of two or more metals, or a metal and non-metal."
+      }
+    ],
+    "summary": [
+      "Metals are lustrous, malleable, ductile and good conductors.",
+      "Metals form positive ions by losing electrons.",
+      "Amphoteric oxides react with both acids and bases.",
+      "The Activity series ranks metals by reactivity.",
+      "Corrosion can be prevented by galvanisation and alloying."
+    ],
+    "exercises": [
+      "1. Give an example of a metal which is a liquid at room temperature.",
+      "2. Explain the meanings of malleable and ductile.",
+      "3. Why is sodium kept immersed in kerosene oil?",
+      "4. What are amphoteric oxides? Give two examples."
+    ],
+    "formulae": [
+      "$$\\ce{2Cu + O2 -> 2CuO}$$ ",
+      "$$\\ce{4Al + 3O2 -> 2Al2O3}$$ ",
+      "$$\\ce{Al2O3 + 6HCl -> 2AlCl3 + 3H2O}$$ ",
+      "$$\\ce{Al2O3 + 2NaOH -> 2NaAlO2 + H2O}$$ ",
+      "Reactivity: K > Na > Ca > Mg > Al > Zn > Fe > Pb > H > Cu > Hg > Ag > Au"
+    ]
   }
-];
+]
