@@ -1,24 +1,43 @@
-# Python AI-Friendly Starter Repo
+# Gem Shuffle
 
-This repository is designed to work cleanly with AI coding agents
-while enforcing senior-level engineering standards.
+A cute Match-3 game built with Python and Pygame for kids.
 
-## Verify GEMINI read AGENT.md
+## Prerequisites
 
+- Python 3.11+
+- [Pygame](https://www.pygame.org/)
+
+## Setup
+
+1. **Create and activate a virtual environment:**
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate  # On Linux/macOS
+   # OR
+   .\venv\Scripts\activate     # On Windows
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+## Running the Game
+
+To start the game, run:
+```bash
+python src/myproject/main.py
 ```
-/memory show
+
+## Running Tests
+
+To run the unit tests:
+```bash
+PYTHONPATH=src pytest
 ```
 
-## Next (optional, but powerful) - Check Later
+## How to Play
 
-I can extend this ZIP with:
-
-✅ pre-commit hooks
-
-✅ GitHub Actions CI
-
-✅ PR template for AI-generated code
-
-✅ Multiple AGENT.md files per submodule
-
-✅ Multi-agent workflow scripts
+- **Objective:** Match 3 or more gems of the same color in a row or column.
+- **Controls:** Use your mouse! Click a gem to select it, then click an adjacent gem to swap them.
+- **Scoring:** Each match earns you points and causes more gems to fall from the top!
