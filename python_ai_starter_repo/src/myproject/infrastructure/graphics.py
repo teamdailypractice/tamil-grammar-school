@@ -55,17 +55,70 @@ class GameRenderer:
         center_x = self.offset_x + x * self.CELL_SIZE + self.CELL_SIZE // 2
         center_y = self.offset_y + y * self.CELL_SIZE + self.CELL_SIZE // 2
         radius = (self.CELL_SIZE // 2) - 8
-
         color = COLORS.get(gem.type, (255, 255, 255))
+
+        if gem.type == GemType.RED: # Heart
+            # Simple heart shape using two circles and a triangle
+            r = radius // 2
+            pygame.draw.circle(self.screen, color, (center_x - r + 4, center_y - r), r)
+            pygame.draw.circle(self.screen, color, (center_x + r - 4, center_y - r), r)
+            points = [
+                (center_x - 2 * r + 4, center_y - r + 5),
+                (center_x + 2 * r - 4, center_y - r + 5),
+                (center_x, center_y + radius),
+            ]
+            pygame.draw.polygon(self.screen, color, points)
+
+        elif gem.type == GemType.GREEN: # Square (Rounded)
+            rect_size = radius * 1.6
+            rect = pygame.Rect(center_x - rect_size//2, center_y - rect_size//2, rect_size, rect_size)
+            pygame.draw.rect(self.screen, color, rect, border_radius=8)
+
+        elif gem.type == GemType.BLUE: # Diamond
+            points = [
+                (center_x, center_y - radius),
+                (center_x + radius, center_y),
+                (center_x, center_y + radius),
+                (center_x - radius, center_y),
+            ]
+            pygame.draw.polygon(self.screen, color, points)
+
+        elif gem.type == GemType.YELLOW: # Star
+            points = []
+            import math
+            outer_radius = radius
+            inner_radius = radius * 0.4
+            for i in range(10):
+                angle = i * 36 # 360 / 10
+                r = outer_radius if i % 2 == 0 else inner_radius
+                # Rotate by -90 deg (math.pi/2) to point up
+                rad = math.radians(angle - 90)
+                px = center_x + r * math.cos(rad)
+                py = center_y + r * math.sin(rad)
+                points.append((px, py))
+            pygame.draw.polygon(self.screen, color, points)
+
+        elif gem.type == GemType.PURPLE: # Circle
+            pygame.draw.circle(self.screen, color, (center_x, center_y), radius)
+
+        elif gem.type == GemType.ORANGE: # Triangle
+            points = [
+                (center_x, center_y - radius),
+                (center_x + radius, center_y + radius),
+                (center_x - radius, center_y + radius),
+            ]
+            pygame.draw.polygon(self.screen, color, points)
         
-        # Draw main circle
-        pygame.draw.circle(self.screen, color, (center_x, center_y), radius)
-        
-        # Draw shine/highlight
-        pygame.draw.circle(self.screen, (255, 255, 255), (center_x - radius//3, center_y - radius//3), radius//4)
+        else: # Fallback Circle
+            pygame.draw.circle(self.screen, color, (center_x, center_y), radius)
+
+        # Draw generic shine/highlight on all shapes to keep the style
+        pygame.draw.circle(self.screen, (255, 255, 255), (center_x - radius//3, center_y - radius//3), 3)
 
         if selected:
-            pygame.draw.circle(self.screen, HIGHLIGHT_COLOR, (center_x, center_y), radius + 4, 3)
+            pygame.draw.rect(self.screen, HIGHLIGHT_COLOR, 
+                           (self.offset_x + x * self.CELL_SIZE, self.offset_y + y * self.CELL_SIZE, self.CELL_SIZE, self.CELL_SIZE), 
+                           3, border_radius=5)
 
     def get_grid_coords(self, mouse_pos: Tuple[int, int]) -> Optional[Tuple[int, int]]:
         mx, my = mouse_pos
