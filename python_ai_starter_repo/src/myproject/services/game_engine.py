@@ -88,6 +88,9 @@ class GameEngine:
 
                 # 3. Fill
                 self.grid.fill_empty()
+                self.draw() # Show the filled board
+                pygame.display.flip()
+                pygame.time.delay(300) # Pause so user sees the new gems
                 # Loop continues next update
             else:
                 self.is_processing = False

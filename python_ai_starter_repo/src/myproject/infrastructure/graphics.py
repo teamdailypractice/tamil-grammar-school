@@ -95,7 +95,7 @@ class GameRenderer:
                 rad = math.radians(angle - 90)
                 px = center_x + r * math.cos(rad)
                 py = center_y + r * math.sin(rad)
-                points.append((px, py))
+                points.append((int(px), int(py)))
             pygame.draw.polygon(self.screen, color, points)
 
         elif gem.type == GemType.PURPLE: # Circle
