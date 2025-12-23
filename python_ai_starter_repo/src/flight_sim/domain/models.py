@@ -79,13 +79,23 @@ class Terrain:
             self.points.append(self._noise(x))
 
     def _noise(self, x: float) -> float:
-        # Simple composition of sine waves for mountains
-        # Low frequency (Big mountains)
-        y = np.sin(x * 0.005) * 150 
-        # High frequency (Roughness)
-        y += np.sin(x * 0.02) * 50
-        # Offset to bottom of screen
-        return self.base_height - 100 + y
+        # Multi-layered noise for rugged terrain
+        
+        # Layer 1: Large rolling hills (The "Valley" shape)
+        y = np.sin(x * 0.003) * 80
+        
+        # Layer 2: Medium peaks (The main obstacles)
+        y += np.sin(x * 0.01 + 1.0) * 60
+        
+        # Layer 3: Jagged rocks (Roughness)
+        y += np.sin(x * 0.03 + 2.5) * 30
+        
+        # Layer 4: High frequency noise (Texture)
+        y += np.sin(x * 0.1) * 10
+        
+        # Base offset (Lower on screen = higher Y value)
+        # We want the average ground to be somewhat low (high Y) to allow flying space
+        return self.base_height - 120 + y
 
     def update(self, speed: float):
         self.scroll_offset += speed
