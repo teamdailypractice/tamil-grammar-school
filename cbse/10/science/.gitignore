@@ -42,6 +42,7 @@ ENV/
 book/
 public/downloads/*.pdf
 public/downloads/*.epub
+public/images
 scripts/lessons.json
 scripts/ch1_full_text.txt
 temp_*

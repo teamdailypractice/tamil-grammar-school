@@ -13,13 +13,11 @@ def block_to_markdown(block):
             md += f"- {item}\n"
         return md + "\n"
     elif block['type'] == 'activity':
-        md = "::: {{.activity style='border: 1px solid orange; padding: 1em; margin: 1em 0;'}}\n"
-        md += f"**{block['title']}**\n\n"
-        md += f"{block['content']}\n\n"
+        md = f"> **{block['title']}**\n>\n"
+        md += f"> {block['content']}\n"
         if 'warning' in block:
-            md += f"*CAUTION: {block['warning']}*\n"
-        md += ":::\n\n"
-        return md
+            md += f">\n> *CAUTION: {block['warning']}*\n"
+        return md + "\n"
     return ""
 
 def main():
@@ -27,37 +25,20 @@ def main():
     output_dir = os.path.join(os.getcwd(), 'public', 'downloads')
     
     if not os.path.exists(json_path):
+        print(f"Error: {json_path} not found.")
         return
 
     with open(json_path, 'r', encoding='utf-8') as f:
         lessons = json.load(f)
 
     for lesson in lessons:
-        print(f"Generating Comprehensive EPUB for {lesson['id']}...")
+        print(f"Generating EPUB for {lesson['id']}...")
         
         md_content = f"% {lesson['title']}\n"
         md_content += f"% Chapter {lesson['chapterNumber']} - {lesson['subject']}\n\n"
         
-        md_content += "# Lesson Content\n\n"
         for block in lesson['content']:
             md_content += block_to_markdown(block)
-            
-        md_content += "# What you have learnt\n\n"
-        for item in lesson['summary']:
-            md_content += f"- {item}\n"
-        md_content += "\n"
-        
-        md_content += "# Quick Revision: Equations & Formulae\n\n"
-        for item in lesson['formulae']:
-            md_content += f"{item}\n\n"
-            
-        md_content += "# Flashcards\n\n"
-        for card in lesson['flashcards']:
-            md_content += f"**Q: {card['front']}**  \n*A: {card['back']}*\n\n"
-            
-        md_content += "# Exercises\n\n"
-        for item in lesson['exercises']:
-            md_content += f"{item}\n\n"
             
         temp_md_file = f"temp_epub_{lesson['id']}.md"
         with open(temp_md_file, 'w', encoding='utf-8') as f:

@@ -66,9 +66,66 @@ book/jesc101-chem-01.pdf
   4. Content Verification:
       * Verified all chemical equations in the lesson, including complex ones like $$\ce{2FeSO4(s) ->[Heat] Fe2O3(s) + SO2(g) + SO3(g)}$$.
 
-## TODO
+## TODO First round
 
 1. The pdf and epub should include all the flashcards and bookmarked as flashcards and all the equations bookmarked as equations and all the formulae bookmarked as formuale for quick reference
 2. The content under the section: "What you have learnt" in source PDF - should be reproduced as is in: website, pdf and epub
 3. The content under the section: "Exercises" in source PDF - should be reproduced as is in: website, pdf and epub
-4. All the chemical equations and physics formula should be provided
+4. All the chemical equations and physics formula should be provided in a separate page so that easy for students to revise quickly and it should be included in the pdf and epub also
+
+  Enhancements Implemented:
+   1. Comprehensive Website Navigation:
+       * Added new tabs to the Lesson View: Summary ("What you have learnt"), Revision (Quick Equations & Formulae), and Exercises.
+       * The website now faithfully reproduces every section from the source PDF.
+   2. Professional PDF & EPUB generation:
+       * Bookmarks: Both formats now include nested bookmarks for the Lesson Content, Summary, Equations & Formulae, Flashcards, and Exercises.
+       * Flashcards Included: All 14 flashcards are now part of the offline downloads for quick self-testing.
+       * Quick Revision Page: A dedicated section listing all 17+ chemical equations has been added for fast exam prep.
+       * Exact Source Reproduction: The "What you have learnt" and "Exercises" sections are rendered exactly as they appear in the original
+         textbook.
+   3. High-Fidelity Rendering:
+       * Chemical equations in the PDF are pre-rendered with KaTeX for perfect precision.
+       * EPUB equations use WebTeX for maximum compatibility with e-readers.
+
+## TODO Second round
+
+* Quiz improvement
+  * Read mode
+  * Exam mode
+
+* Celebration on lesson complete and quiz completion and achievement celebration if quiz is 60% and 100 % kudos
+* Progress Tracking Page for each lesson and its quiz in a separate page
+
+## TODO Third round
+
+As the website serves static content, optimise it the best way for static
+
+## PDF and EPUB
+
+1. Complete PDF
+2. Complete EPUB
+3. They should include Quiz questions also
+
+
+
+## Why did you choose nextjs?
+
+why did you choose nextjs?
+
+✦ I chose Next.js 14 for this specific project for several strategic reasons:
+
+   1. Static Generation (SSG) for Speed: Since educational content (lessons) doesn't change every minute, Next.js allows me to "pre-render"
+      these pages at build time. This means the website loads almost instantly for students, even on slow mobile connections.
+   2. SEO & Indexability: By using Next.js, all the scientific content and equations are rendered on the server first. This makes the platform
+      much easier for search engines (or internal school search tools) to index, unlike a standard React app where the content is often hidden
+      behind JavaScript.
+   3. App Router for Clean Navigation: The new App Router allows for nested layouts. This is perfect for your requirement where we have a global
+      Navbar and a specialized Dashboard, while individual lessons have their own sub-navigation (Lesson, Summary, Quiz, Flashcards).
+   4. Optimized Performance: Next.js automatically handles "Code Splitting." When a student is reading Lesson 1, the browser only loads the code
+      for Lesson 1. It doesn't waste data loading Lesson 2 until it's needed, which is critical for mobile usage.
+   5. Easy Deployment & Scaling: Next.js projects are very easy to deploy and can handle a growing number of chapters (Chemistry, Physics,
+      Biology) without getting slow or disorganized.
+   6. Seamless Data Bridge: It allowed me to easily build the "Bridge" scripts (TypeScript to JSON) so we could use powerful Python tools like
+      WeasyPrint and Pandoc for high-quality offline downloads.
+
+  In short, it provides the best balance between a professional desktop experience and a fast, accessible mobile experience for students.
