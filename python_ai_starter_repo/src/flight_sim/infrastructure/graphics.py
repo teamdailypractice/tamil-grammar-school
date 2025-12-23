@@ -31,37 +31,82 @@ class FlightRenderer:
         self.particles: List[Particle] = []
         self.width = screen.get_width()
         self.height = screen.get_height()
+        # Create Sky Gradient
+        self.sky_surface = pygame.Surface((self.width, self.height))
+        self._create_sky_gradient()
+
+    def _create_sky_gradient(self):
+        # Deep blue (top) to Light blue (bottom)
+        top_color = (0, 0, 50)
+        bottom_color = (135, 206, 235)
+        for y in range(self.height):
+            ratio = y / self.height
+            r = int(top_color[0] + (bottom_color[0] - top_color[0]) * ratio)
+            g = int(top_color[1] + (bottom_color[1] - top_color[1]) * ratio)
+            b = int(top_color[2] + (bottom_color[2] - top_color[2]) * ratio)
+            pygame.draw.line(self.sky_surface, (r, g, b), (0, y), (self.width, y))
 
     def draw_game(self, jet: Jet, terrain: Terrain, radar_ceiling: float, distance: float, game_over: bool, win: bool):
-        self.screen.fill(SKY_BLUE)
+        self.screen.blit(self.sky_surface, (0, 0))
         
-        # 1. Draw Terrain
-        terrain_points = []
-        # Draw from x=0 to width with step
-        step = 5
-        for x in range(0, self.width + step, step):
-            h = terrain.get_height_at(x)
-            terrain_points.append((x, h))
+        # Camera Logic: Keep Jet roughly in center vertically
+        target_cam_y = jet.pos.y - self.height // 2
         
-        # Close the polygon at the bottom
-        terrain_points.append((self.width, self.height))
-        terrain_points.append((0, self.height))
-        
-        pygame.draw.polygon(self.screen, DARK_GREEN, terrain_points)
-        pygame.draw.lines(self.screen, NEON_GREEN, False, terrain_points[:-(2)], 2) # Wireframe top
+        # Clamp camera so we don't see above sky or too far below ground (optional)
+        # For now, let's just use the target to allow following the jet deep into canyons
+        camera_y = target_cam_y
 
-        # 2. Draw Radar Ceiling
-        pygame.draw.line(self.screen, ALERT_RED, (0, radar_ceiling), (self.width, radar_ceiling), 1)
-        # Warning text if close
+        # 1. Draw Terrain with varied colors
+        step = 4
+        base_h = terrain.base_height
+        
+        for x in range(0, self.width + step, step):
+            # Get height for this column (left side)
+            h1 = terrain.get_height_at(x)
+            # Get height for next column (right side)
+            h2 = terrain.get_height_at(x + step)
+            
+            # Apply Camera transform
+            screen_h1 = h1 - camera_y
+            screen_h2 = h2 - camera_y
+            
+            # Determine Color based on absolute height (lower value = higher peak)
+            # h1 relative to base_h
+            # Peak: < base - 350
+            # Rock: < base - 150
+            # Grass: > base - 150
+            
+            val = h1
+            if val < base_h - 350:
+                color = (240, 240, 255) # Snow
+            elif val < base_h - 150:
+                color = (100, 100, 100) # Rock
+            elif val < base_h - 50:
+                color = (34, 139, 34)   # Forest Green
+            else:
+                color = (107, 142, 35)  # Olive/Dirt Green
+            
+            # Draw quad
+            points = [
+                (x, screen_h1),
+                (x + step, screen_h2),
+                (x + step, self.height), # Extend to bottom
+                (x, self.height)
+            ]
+            pygame.draw.polygon(self.screen, color, points)
+
+        # 2. Draw Radar Ceiling (fixed relative to world 0, so moves with camera)
+        radar_y = radar_ceiling - camera_y
+        if 0 <= radar_y <= self.height:
+             pygame.draw.line(self.screen, ALERT_RED, (0, radar_y), (self.width, radar_y), 2)
+
+        # Warning text if close to radar
         if jet.pos.y < radar_ceiling + 50:
             text = self.font.render("WARNING: RADAR DETECTION", True, ALERT_RED)
-            self.screen.blit(text, (self.width//2 - 100, radar_ceiling + 10))
-            # Blink effect
-            if (pygame.time.get_ticks() // 200) % 2 == 0:
-                 pygame.draw.rect(self.screen, (255, 0, 0, 50), (0, 0, self.width, radar_ceiling))
-
-        # 3. Draw Jet
-        self._draw_jet(jet)
+            self.screen.blit(text, (self.width//2 - 100, 50)) # Fixed on HUD
+            
+        # 3. Draw Jet (relative to camera)
+        self._draw_jet(jet, camera_y)
 
         # 4. Draw HUD
         self._draw_hud(jet, distance)
@@ -76,9 +121,10 @@ class FlightRenderer:
             sub = self.font.render("Press R to Restart", True, (255, 255, 255))
             self.screen.blit(sub, (self.width//2 - sub.get_width()//2, self.height//2 + 40))
 
-    def _draw_jet(self, jet: Jet):
-        # Center of jet on screen (X is fixed, Y moves)
-        cx, cy = 150, jet.pos.y
+    def _draw_jet(self, jet: Jet, camera_y: float):
+        # Center of jet on screen (X is fixed)
+        cx = 150
+        cy = jet.pos.y - camera_y # Apply camera transform
         
         # Rotation
         angle_rad = math.radians(jet.angle)
@@ -107,11 +153,20 @@ class FlightRenderer:
             # Emit particles from tail
             tail_x, tail_y = rotate_pt(-10, 0)
             for _ in range(int(jet.thrust_power * 5)):
+                # Particles are stored in world space or screen space? 
+                # Simplest is screen space, but then they move with camera which looks weird if cam moves fast.
+                # Let's store them in world space for correctness?
+                # Actually, graphics class shouldn't simulate world.
+                # For this simple arcade feel, screen space (relative to jet) is fine, 
+                # but we need to adjust their Y by camera_delta every frame? Too complex.
+                # Let's just spawn them at current screen pos and let them drift.
                 self.particles.append(Particle(tail_x, tail_y))
 
         # Draw particles
         for p in self.particles[:]:
             p.update()
+            # If we wanted them to move with camera, we'd need to store world pos. 
+            # Current Particle class is simple screen-space. It will look okay for small cam movements.
             if p.life <= 0:
                 self.particles.remove(p)
             else:

@@ -68,45 +68,34 @@ class Terrain:
     def __init__(self, width: int, height: int):
         self.width = width
         self.base_height = height
-        self.chunk_size = 100
         self.scroll_offset = 0.0
-        self.points = []
-        self._generate_initial()
-
-    def _generate_initial(self):
-        # Generate initial terrain points
-        for x in range(0, self.width + self.chunk_size, 10):
-            self.points.append(self._noise(x))
-
-    def _noise(self, x: float) -> float:
-        # Multi-layered noise for rugged terrain
+        self.total_distance = 15000 # Map size (greater than win condition)
         
-        # Layer 1: Large rolling hills (The "Valley" shape)
-        y = np.sin(x * 0.003) * 80
+        # Pre-generate the world map using Value Noise
+        # We define "control points" every X units and interpolate
+        self.control_points_x = np.arange(0, self.total_distance + width, 100)
         
-        # Layer 2: Medium peaks (The main obstacles)
-        y += np.sin(x * 0.01 + 1.0) * 60
+        # Random heights for control points
+        # Base level is height (bottom), we subtract to go up
+        self.control_points_y = []
+        for _ in self.control_points_x:
+            # Random height: 
+            # - Low (Valley): base - 50
+            # - High (Peak): base - 450
+            h = random.uniform(self.base_height - 450, self.base_height - 50)
+            self.control_points_y.append(h)
         
-        # Layer 3: Jagged rocks (Roughness)
-        y += np.sin(x * 0.03 + 2.5) * 30
-        
-        # Layer 4: High frequency noise (Texture)
-        y += np.sin(x * 0.1) * 10
-        
-        # Base offset (Lower on screen = higher Y value)
-        # We want the average ground to be somewhat low (high Y) to allow flying space
-        return self.base_height - 120 + y
+        self.control_points_y = np.array(self.control_points_y)
 
     def update(self, speed: float):
         self.scroll_offset += speed
         
-        # Remove points that are off screen left
-        # We shift the "logical" x coordinate.
-        # In a real implementation we'd probably use a fixed array and shift values,
-        # but recalculating based on absolute X is smoother for noise functions.
-        pass 
-        
     def get_height_at(self, screen_x: int) -> float:
         # Map screen_x + scroll_offset to world x
         world_x = screen_x + self.scroll_offset
-        return self._noise(world_x)
+        
+        if world_x > self.total_distance:
+            return self.base_height # Flatland at end of world
+            
+        # Linear interpolation
+        return float(np.interp(world_x, self.control_points_x, self.control_points_y))

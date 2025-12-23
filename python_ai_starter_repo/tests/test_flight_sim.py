@@ -41,9 +41,9 @@ def test_jet_lift():
 def test_terrain_generation():
     terrain = Terrain(800, 600)
     height = terrain.get_height_at(100)
-    # Check bounds (base height 600, minus offset 120, +/- ~180 variation)
-    # Expected range roughly [300, 660]. Widening safety margins.
-    assert 250 < height < 800
+    # Check bounds (base height 600, minus [50, 450])
+    # Expected range roughly [150, 550].
+    assert 100 < height < 650
 
 def test_terrain_scrolling():
     terrain = Terrain(800, 600)
