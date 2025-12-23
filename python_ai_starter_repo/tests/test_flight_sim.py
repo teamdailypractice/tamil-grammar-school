@@ -41,9 +41,10 @@ def test_jet_lift():
 def test_terrain_generation():
     terrain = Terrain(800, 600)
     height = terrain.get_height_at(100)
-    # Check bounds (base height 600, minus [50, 450])
-    # Expected range roughly [150, 550].
-    assert 100 < height < 650
+    # Check bounds
+    # x=100 is now in the Safe Zone (first 800 units).
+    # Should be exactly base(600) - 50 = 550.
+    assert abs(height - 550) < 1.0
 
 def test_terrain_scrolling():
     terrain = Terrain(800, 600)

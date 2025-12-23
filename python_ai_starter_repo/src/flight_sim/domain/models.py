@@ -78,11 +78,15 @@ class Terrain:
         # Random heights for control points
         # Base level is height (bottom), we subtract to go up
         self.control_points_y = []
-        for _ in self.control_points_x:
-            # Random height: 
-            # - Low (Valley): base - 50
-            # - High (Peak): base - 450
-            h = random.uniform(self.base_height - 450, self.base_height - 50)
+        for i, _ in enumerate(self.control_points_x):
+            # Safe Zone for takeoff (First 800 units / 8 points)
+            if i < 8:
+                h = self.base_height - 50 # Flat and low (Valley)
+            else:
+                # Random height: 
+                # - Low (Valley): base - 50
+                # - High (Peak): base - 450
+                h = random.uniform(self.base_height - 450, self.base_height - 50)
             self.control_points_y.append(h)
         
         self.control_points_y = np.array(self.control_points_y)
