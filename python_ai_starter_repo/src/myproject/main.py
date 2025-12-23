@@ -2,7 +2,7 @@ import sys
 import os
 
 # Add the project root to sys.path so 'src' module can be found
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
 from src.myproject.services.game_engine import GameEngine
 
