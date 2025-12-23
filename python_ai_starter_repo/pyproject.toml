@@ -1,0 +1,10 @@
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+
+[tool.ruff]
+select = ["E", "F", "I", "UP"]
+fix = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
