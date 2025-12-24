@@ -38,3 +38,11 @@ Follow all rules strictly.
 ## Forbidden
 - No TODO placeholders
 - No commented-out code
+
+## Rules
+
+- Never commit code before running all tests and verifying they pass
+- When refactoring, never modify test assertions, only the implementation
+- Always update the README and specification file after finishing a task
+- If instructions are unclear, ask follow-up questions before continuing
+- If a request is impossible, explain why is so and suggest alternatives

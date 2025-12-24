@@ -41,3 +41,5 @@ PYTHONPATH=src pytest
 - **Objective:** Match 3 or more gems of the same color in a row or column.
 - **Controls:** Use your mouse! Click a gem to select it, then click an adjacent gem to swap them.
 - **Scoring:** Each match earns you points and causes more gems to fall from the top!
+
+Please write the code for a flight simulator of jet fighter on a mountain ground. The goal of the game is to reach the goal avoiding the radar staying as low as possible. Use pygame and any library you think can help.
